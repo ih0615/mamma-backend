@@ -85,7 +85,7 @@ public class MemberController {
         return response.ok(new VerifyConfirmEmailView(isValid));
     }
 
-    @PostMapping("/registration")
+    @PostMapping
     public ResponseEntity<Body> registerMember(@Valid RegisterMemberParam request,
         BindingResult bindingResult) {
 

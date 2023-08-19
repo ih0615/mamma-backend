@@ -85,6 +85,8 @@ public class MemberServiceImpl implements MemberService {
         Member member = request.toEntity(passwordEncoder);
 
         memberRepository.save(member);
+
+        redisTemplate.delete(VERIFY_EMAIL_REDIS_KEY + request.getEmail());
     }
 
     @Transactional
