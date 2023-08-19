@@ -1,4 +1,4 @@
-package com.example.mammabackend.global.common.jwt.filter;
+package com.example.mammabackend.global.common.security.filter;
 
 import com.example.mammabackend.global.common.jwt.application.JwtService;
 import com.example.mammabackend.global.common.jwt.application.JwtServiceFactory;
