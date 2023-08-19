@@ -5,9 +5,8 @@ import com.example.mammabackend.global.common.enums.LegacyCodeConverter;
 
 public enum MemberState implements LegacyCode {
     NORMAL(1),
-    DORMANCY(2),
-    SUSPEND(3),
-    WITHDRAW(0);
+    SUSPEND(2),
+    WITHDRAW(3);
 
     private final int legacyCode;
 

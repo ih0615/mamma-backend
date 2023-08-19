@@ -36,7 +36,7 @@ public class MemberSuspend {
     @Column(name = "start_date_time", nullable = false)
     private LocalDateTime startDateTime;
     @Column(name = "end_date_time")
-    private LocalDateTime endDate;
+    private LocalDateTime endDateTime;
 
     @Default
     @Column(name = "is_applied", nullable = false)
