@@ -1,7 +1,6 @@
 package com.example.mammabackend.global.common.jwt.application;
 
 import com.example.mammabackend.global.common.jwt.dto.JwtDto.Token;
-import com.example.mammabackend.global.common.jwt.enums.TokenType;
 import com.example.mammabackend.global.common.jwt.properties.AccessTokenProperties;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -16,16 +15,13 @@ import java.util.Map;
 import javax.crypto.SecretKey;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Slf4j
 @Service
 public class AccessTokenService implements JwtService {
 
     private final AccessTokenProperties properties;
-    private final String ROLE_KEY = "role";
-    private final String ROLE_VALUE = "ROLE_USER";
-    private final String TOKEN_TYPE_KEY = "type";
-    private final String TOKEN_TYPE_VALUE = TokenType.ACCESS_TOKEN.name().toUpperCase();
     private final SecretKey key;
 
     public AccessTokenService(AccessTokenProperties properties) {
@@ -40,8 +36,8 @@ public class AccessTokenService implements JwtService {
         Date expiredAt = new Date(now.getTime() + (properties.getExpireSecond() * 1000));
 
         String token = Jwts.builder().setSubject(subject)
-            .claim(ROLE_KEY, ROLE_VALUE)
-            .claim(TOKEN_TYPE_KEY, TOKEN_TYPE_VALUE)
+            .claim(properties.getROLE_KEY(), properties.getROLE_VALUE())
+            .claim(properties.getTOKEN_TYPE_KEY(), properties.getTOKEN_TYPE_VALUE())
             .addClaims(claims)
             .setIssuedAt(now)
             .setExpiration(expiredAt)
@@ -61,8 +57,17 @@ public class AccessTokenService implements JwtService {
     public boolean validateToken(String token) {
 
         try {
-            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
-            return true;
+            Map<String, Object> claims = Jwts.parserBuilder().setSigningKey(key).build()
+                .parseClaimsJws(token).getBody();
+
+            String roleValue = String.valueOf(claims.get(properties.getROLE_KEY()));
+            String tokenTypeValue = String.valueOf(claims.get(properties.getTOKEN_TYPE_KEY()));
+
+            return StringUtils.hasText(roleValue)
+                && StringUtils.hasText(tokenTypeValue)
+                && roleValue.equals(properties.getROLE_VALUE())
+                && tokenTypeValue.equals(properties.getTOKEN_TYPE_VALUE());
+
         } catch (SecurityException | MalformedJwtException e) {
             log.info("Invalid JWT Token", e);
         } catch (ExpiredJwtException e) {
