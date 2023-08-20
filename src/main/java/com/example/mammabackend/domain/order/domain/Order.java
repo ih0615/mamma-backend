@@ -1,8 +1,7 @@
 package com.example.mammabackend.domain.order.domain;
 
-import com.example.mammabackend.domain.order.enums.OrderState;
 import com.example.mammabackend.domain.member.domain.Member;
-import com.example.mammabackend.domain.member.domain.MemberShippingAddress;
+import com.example.mammabackend.domain.order.enums.OrderState;
 import com.example.mammabackend.global.common.audit.CreatedAndUpdatedAt;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -38,9 +37,20 @@ public class Order extends CreatedAndUpdatedAt {
     @JoinColumn(name = "member_fk", referencedColumnName = "member_sq", nullable = false)
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_shipping_address_fk", referencedColumnName = "member_shipping_address_sq", nullable = false)
-    private MemberShippingAddress memberShippingAddress;
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @Column(name = "phone", nullable = false)
+    private String phone;
+
+    @Column(name = "zipcode", nullable = false)
+    private String zipcode;
+
+    @Column(name = "address", nullable = false)
+    private String address;
+
+    @Column(name = "addressDetail")
+    private String addressDetail;
 
     @Column(name = "total_price")
     private Long totalPrice;
