@@ -1,5 +1,6 @@
 package com.example.mammabackend.domain.order.domain;
 
+import com.example.mammabackend.domain.order.enums.OrderState;
 import com.example.mammabackend.domain.user.domain.Member;
 import com.example.mammabackend.domain.user.domain.MemberShippingAddress;
 import com.example.mammabackend.global.common.audit.CreatedAndUpdatedAt;
@@ -46,5 +47,8 @@ public class Order extends CreatedAndUpdatedAt {
 
     @Column(name = "message")
     private String message;
+
+    @Column(name = "state")
+    private OrderState state;
 
 }
