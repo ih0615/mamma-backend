@@ -2,6 +2,12 @@ server:
   port: 9000
 
 spring:
+
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+
   jpa:
     hibernate:
       ddl-auto: create-drop
@@ -15,8 +21,8 @@ spring:
     username: sa
     password:
   mail:
-    host:
-    port:
+    host: smtp.gmail.com
+    port: 587
     username:
     password:
     properties:
@@ -26,3 +32,22 @@ spring:
           timeout: 5000
           starttls:
             enable: true
+props:
+  token:
+    access-token:
+      key:
+      expire-second:
+    refresh-token:
+      key:
+      expire-second:
+  security:
+    skip-path:
+      - /h2-console/**
+      - get /member/duplication/email
+      - post /member/validation/request/email
+      - post /member/validation/confirm/email
+      - post /member
+      - post /member/email
+      - put /member/password
+      - post /member/auth/login
+      - put /member/auth/reissue
