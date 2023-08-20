@@ -206,4 +206,10 @@ public class MemberServiceImpl implements MemberService {
 
         return memberShippingAddressRepository.findAllByMember(member);
     }
+
+    @Override
+    public Member findNormalMemberByMemberSq(Long memberSq) {
+        return memberRepository.findByMemberSqAndState(memberSq, MemberState.NORMAL)
+            .orElseThrow(() -> new IllegalStateException(ResponseCodes.PROCESS_NOT_EXIST));
+    }
 }

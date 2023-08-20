@@ -34,9 +34,12 @@ public interface MemberService {
 
     void registerMemberShippingAddress(Long memberSq, RegisterMemberAddressParam request);
 
-    void updateMemberShippingAddress(Long memberShippingAddressSq, Long memberSq, UpdateMemberAddressParam request);
+    void updateMemberShippingAddress(Long memberShippingAddressSq, Long memberSq,
+        UpdateMemberAddressParam request);
 
     void deleteMemberShippingAddress(Long memberShippingAddressSq, Long memberSq);
 
     List<MemberShippingAddress> getMemberShippingAddresses(Long memberSq);
+
+    Member findNormalMemberByMemberSq(Long memberSq);
 }

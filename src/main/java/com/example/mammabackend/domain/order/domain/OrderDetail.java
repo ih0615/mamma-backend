@@ -1,6 +1,7 @@
 package com.example.mammabackend.domain.order.domain;
 
 import com.example.mammabackend.domain.product.domain.Product;
+import com.example.mammabackend.domain.product.dto.ProductDto.ProductQuantity;
 import com.example.mammabackend.global.common.audit.CreatedAndUpdatedAt;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -37,10 +38,12 @@ public class OrderDetail extends CreatedAndUpdatedAt {
     @JoinColumn(name = "product_fk", referencedColumnName = "product_sq", nullable = false)
     private Product product;
 
-    @Column(name = "quantity")
-    private Long quantity;
+    @Column(name = "name", nullable = false)
+    private String name;
 
     @Column(name = "price", nullable = false)
     private Long price;
 
+    @Column(name = "quantity", nullable = false)
+    private Long quantity;
 }

@@ -9,7 +9,8 @@ public enum OrderState implements LegacyCode {
     DELIVERY_PROCESS(2),
     DELIVERY_COMPLETE(3),
     ORDER_COMPLETE(4),
-    ORDER_CANCEL(5);
+    ORDER_CANCEL_WAIT(5),
+    ORDER_CANCEL_COMPLETE(6);
 
     private final int legacyCode;
 
