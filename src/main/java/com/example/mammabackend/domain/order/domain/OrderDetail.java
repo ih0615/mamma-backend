@@ -1,7 +1,6 @@
 package com.example.mammabackend.domain.order.domain;
 
 import com.example.mammabackend.domain.product.domain.Product;
-import com.example.mammabackend.domain.product.dto.ProductDto.ProductQuantity;
 import com.example.mammabackend.global.common.audit.CreatedAndUpdatedAt;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
