@@ -1,5 +1,6 @@
 package com.example.mammabackend.domain.product.domain;
 
+import com.example.mammabackend.global.common.audit.CreatedAndUpdatedAt;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,14 +19,14 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 @Entity(name = "product_tb")
-public class Product {
+public class Product extends CreatedAndUpdatedAt {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_sq")
     private Long productSq;
 
-    @Column(name = "code", nullable = false)
+    @Column(name = "code", unique = true, nullable = false)
     private String code;
 
     @Column(name = "name", nullable = false)

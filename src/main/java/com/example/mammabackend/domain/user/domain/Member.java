@@ -27,7 +27,7 @@ public class Member extends CreatedAndUpdatedAt {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_sq")
     private Long memberSq;
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
     @Column(name = "password", nullable = false)
     private String password;

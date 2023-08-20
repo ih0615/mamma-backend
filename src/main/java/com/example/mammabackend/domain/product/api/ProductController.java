@@ -5,7 +5,6 @@ import com.example.mammabackend.domain.product.domain.Product;
 import com.example.mammabackend.domain.product.dto.ProductDto.ProductView;
 import com.example.mammabackend.domain.product.dto.ProductDto.ProductsParam;
 import com.example.mammabackend.domain.product.dto.ProductDto.ProductsView;
-import com.example.mammabackend.global.common.Helper;
 import com.example.mammabackend.global.common.Response;
 import com.example.mammabackend.global.common.Response.Body;
 import com.querydsl.core.QueryResults;

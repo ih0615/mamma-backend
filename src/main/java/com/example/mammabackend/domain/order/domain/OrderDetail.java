@@ -1,6 +1,7 @@
-package com.example.mammabackend.domain.product.domain;
+package com.example.mammabackend.domain.order.domain;
 
-import com.example.mammabackend.global.common.audit.CreatedAt;
+import com.example.mammabackend.domain.product.domain.Product;
+import com.example.mammabackend.global.common.audit.CreatedAndUpdatedAt;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -20,19 +21,26 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@Entity(name = "product_stock_tb")
-public class ProductStock extends CreatedAt {
+@Entity(name = "order_detail_tb")
+public class OrderDetail extends CreatedAndUpdatedAt {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_stock_sq")
-    private Long productStockSq;
+    @Column(name = "order_detail_sq")
+    private Long orderDetailSq;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_fk", referencedColumnName = "order_sq", nullable = false)
+    private Order order;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_fk", referencedColumnName = "product_sq", nullable = false)
     private Product product;
 
-    @Column(name = "quantity", nullable = false)
+    @Column(name = "quantity")
     private Long quantity;
+
+    @Column(name = "price", nullable = false)
+    private Long price;
 
 }
