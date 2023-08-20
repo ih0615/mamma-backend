@@ -33,7 +33,7 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<Body> getProducts(ProductsParam request,
-        @PageableDefault(page = 0, size = 10, sort = "productSq", direction = Direction.ASC) Pageable pageable) {
+        @PageableDefault(sort = "productSq", direction = Direction.ASC) Pageable pageable) {
 
         QueryResults<Product> qr = productService.getProducts(request, pageable);
         List<ProductsView> results = qr.getResults().stream()

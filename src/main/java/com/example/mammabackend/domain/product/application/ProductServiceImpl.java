@@ -6,12 +6,11 @@ import com.example.mammabackend.domain.product.dao.ProductRepository;
 import com.example.mammabackend.domain.product.dao.ProductStockRepository;
 import com.example.mammabackend.domain.product.domain.Product;
 import com.example.mammabackend.domain.product.dto.ProductDto.ProductsParam;
+import com.example.mammabackend.global.common.Helper;
 import com.example.mammabackend.global.exception.ResponseCodes;
 import com.querydsl.core.QueryResults;
-import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
-import com.querydsl.core.types.dsl.PathBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +27,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final ProductStockRepository productStockRepository;
     private final RedisTemplate<String, String> redisTemplate;
+    private final Helper helper = Helper.getInstance();
     private final String PRODUCT_STOCK_KEY = "product:stock:";
 
     @Override
@@ -41,12 +41,7 @@ public class ProductServiceImpl implements ProductService {
             where.add(product.isSale.eq(request.getIsSale()));
         }
 
-        List<OrderSpecifier> sort = pageable.getSort().stream().map(order -> {
-            PathBuilder<?> pathBuilder = new PathBuilder<Object>(product.getType(),
-                product.getMetadata());
-            Order direction = order.isAscending() ? Order.ASC : Order.DESC;
-            return new OrderSpecifier(direction, pathBuilder.get(order.getProperty()));
-        }).toList();
+        List<OrderSpecifier> sort = helper.convertPageableToOrderSpecifier(pageable);
 
         return productRepository.findAllPaged(where, pageable.getOffset(), pageable.getPageSize(),
             sort);
@@ -60,10 +55,15 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Long getProductStock(Long productSq) {
+
         String redisKey = PRODUCT_STOCK_KEY + productSq;
 
         return Optional.ofNullable(redisTemplate.opsForValue().get(redisKey))
             .map(Long::valueOf)
-            .orElseGet(() -> productStockRepository.getStockByProductSq(productSq));
+            .orElseGet(() -> {
+                Long dbProductStock = productStockRepository.getStockByProductSq(productSq);
+                redisTemplate.opsForValue().set(redisKey, String.valueOf(dbProductStock));
+                return dbProductStock;
+            });
     }
 }

@@ -1,8 +1,15 @@
 package com.example.mammabackend.global.common;
 
+import static com.example.mammabackend.domain.product.domain.QProduct.product;
+
 import com.example.mammabackend.global.exception.ResponseCodes;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.PathBuilder;
 import java.security.Principal;
+import java.util.List;
 import java.util.Random;
+import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
 
 public class Helper {
@@ -39,5 +46,15 @@ public class Helper {
             .limit(length)
             .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
             .toString();
+    }
+
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public List<OrderSpecifier> convertPageableToOrderSpecifier(Pageable pageable) {
+        return pageable.getSort().stream().map(order -> {
+            PathBuilder<?> pathBuilder = new PathBuilder<Object>(product.getType(),
+                product.getMetadata());
+            Order direction = order.isAscending() ? Order.ASC : Order.DESC;
+            return new OrderSpecifier(direction, pathBuilder.get(order.getProperty()));
+        }).toList();
     }
 }
