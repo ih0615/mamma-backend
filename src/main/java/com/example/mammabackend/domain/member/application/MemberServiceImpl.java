@@ -2,10 +2,14 @@ package com.example.mammabackend.domain.member.application;
 
 import com.example.mammabackend.domain.member.application.interfaces.MemberService;
 import com.example.mammabackend.domain.member.dao.MemberRepository;
+import com.example.mammabackend.domain.member.dao.MemberShippingAddressRepository;
 import com.example.mammabackend.domain.member.domain.Member;
+import com.example.mammabackend.domain.member.domain.MemberShippingAddress;
 import com.example.mammabackend.domain.member.dto.MemberDto.FindMemberEmailParam;
 import com.example.mammabackend.domain.member.dto.MemberDto.FindMemberPasswordParam;
+import com.example.mammabackend.domain.member.dto.MemberDto.RegisterMemberAddressParam;
 import com.example.mammabackend.domain.member.dto.MemberDto.RegisterMemberParam;
+import com.example.mammabackend.domain.member.dto.MemberDto.UpdateMemberAddressParam;
 import com.example.mammabackend.domain.member.dto.MemberDto.UpdateMemberParam;
 import com.example.mammabackend.domain.member.enums.MemberState;
 import com.example.mammabackend.global.common.Helper;
@@ -15,6 +19,7 @@ import com.example.mammabackend.global.exception.ResponseCodes;
 import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -28,6 +33,7 @@ public class MemberServiceImpl implements MemberService {
 
     private final EmailService emailService;
     private final MemberRepository memberRepository;
+    private final MemberShippingAddressRepository memberShippingAddressRepository;
     private final RedisTemplate<String, String> redisTemplate;
     private final PasswordEncoder passwordEncoder;
     private final Helper helper = Helper.getInstance();
@@ -148,5 +154,56 @@ public class MemberServiceImpl implements MemberService {
         member.updatePassword(tempPassword, passwordEncoder);
 
         memberRepository.save(member);
+    }
+
+    @Override
+    public void registerMemberShippingAddress(Long memberSq, RegisterMemberAddressParam request) {
+
+        Member member = memberRepository.findByMemberSqAndState(memberSq, MemberState.NORMAL)
+            .orElseThrow(() -> new IllegalStateException(ResponseCodes.PROCESS_NOT_EXIST));
+
+        MemberShippingAddress memberShippingAddress = request.toEntity(member);
+
+        memberShippingAddressRepository.save(memberShippingAddress);
+    }
+
+    @Override
+    @Transactional
+    public void updateMemberShippingAddress(Long memberShippingAddressSq, Long memberSq,
+        UpdateMemberAddressParam request) {
+
+        Member member = memberRepository.findByMemberSqAndState(memberSq, MemberState.NORMAL)
+            .orElseThrow(() -> new IllegalStateException(ResponseCodes.PROCESS_NOT_EXIST));
+
+        MemberShippingAddress memberShippingAddress = memberShippingAddressRepository.findByMemberShippingAddressSqAndMember(
+                memberShippingAddressSq, member)
+            .orElseThrow(() -> new IllegalStateException(ResponseCodes.PROCESS_NOT_EXIST));
+
+        memberShippingAddress = request.toEntity(memberShippingAddress);
+
+        memberShippingAddressRepository.save(memberShippingAddress);
+    }
+
+    @Override
+    @Transactional
+    public void deleteMemberShippingAddress(Long memberShippingAddressSq, Long memberSq) {
+
+        Member member = memberRepository.findByMemberSqAndState(memberSq, MemberState.NORMAL)
+            .orElseThrow(() -> new IllegalStateException(ResponseCodes.PROCESS_NOT_EXIST));
+
+        MemberShippingAddress memberShippingAddress = memberShippingAddressRepository.findByMemberShippingAddressSqAndMember(
+                memberShippingAddressSq, member)
+            .orElseThrow(() -> new IllegalStateException(ResponseCodes.PROCESS_NOT_EXIST));
+
+        memberShippingAddressRepository.delete(memberShippingAddress);
+    }
+
+    @Override
+    public List<MemberShippingAddress> getMemberShippingAddresses(Long memberSq) {
+
+        Member member = memberRepository.findByMemberSqAndState(memberSq, MemberState.NORMAL)
+            .orElseThrow(() -> new IllegalStateException(ResponseCodes.PROCESS_NOT_EXIST));
+
+        return memberShippingAddressRepository.findAllByMember(member);
     }
 }

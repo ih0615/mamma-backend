@@ -5,6 +5,7 @@ import static com.example.mammabackend.global.exception.ResponseCodes.SUCCESS;
 import com.example.mammabackend.domain.member.application.interfaces.AuthService;
 import com.example.mammabackend.domain.member.application.interfaces.MemberService;
 import com.example.mammabackend.domain.member.domain.Member;
+import com.example.mammabackend.domain.member.domain.MemberShippingAddress;
 import com.example.mammabackend.domain.member.dto.AuthDto.LoginParam;
 import com.example.mammabackend.domain.member.dto.AuthDto.LoginView;
 import com.example.mammabackend.domain.member.dto.AuthDto.ReIssueParam;
@@ -12,20 +13,25 @@ import com.example.mammabackend.domain.member.dto.MemberDto;
 import com.example.mammabackend.domain.member.dto.MemberDto.FindMemberEmailParam;
 import com.example.mammabackend.domain.member.dto.MemberDto.FindMemberEmailView;
 import com.example.mammabackend.domain.member.dto.MemberDto.IsDuplicatedEmailView;
+import com.example.mammabackend.domain.member.dto.MemberDto.MemberAddressesView;
 import com.example.mammabackend.domain.member.dto.MemberDto.MemberInfoView;
+import com.example.mammabackend.domain.member.dto.MemberDto.RegisterMemberAddressParam;
 import com.example.mammabackend.domain.member.dto.MemberDto.RegisterMemberParam;
+import com.example.mammabackend.domain.member.dto.MemberDto.UpdateMemberAddressParam;
 import com.example.mammabackend.domain.member.dto.MemberDto.VerifyConfirmEmailView;
 import com.example.mammabackend.global.common.Helper;
 import com.example.mammabackend.global.common.Response;
 import com.example.mammabackend.global.common.Response.Body;
 import jakarta.validation.Valid;
 import java.security.Principal;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -162,6 +168,63 @@ public class MemberController {
         memberService.findMemberPassword(request);
 
         return response.ok(SUCCESS);
+    }
+
+    @PostMapping("/address")
+    public ResponseEntity<Body> registerMemberShippingAddress(Principal principal,
+        @Valid RegisterMemberAddressParam request, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return response.fail(bindingResult);
+        }
+
+        Long memberSq = helper.getMemberSq(principal);
+
+        memberService.registerMemberShippingAddress(memberSq, request);
+
+        return response.okMessage(SUCCESS);
+    }
+
+    @PutMapping("/address/{memberShippingAddressSq}")
+    public ResponseEntity<Body> updateMemberShippingAddress(
+        Principal principal,
+        @PathVariable Long memberShippingAddressSq,
+        @Valid UpdateMemberAddressParam request,
+        BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return response.fail(bindingResult);
+        }
+
+        Long memberSq = helper.getMemberSq(principal);
+
+        memberService.updateMemberShippingAddress(memberShippingAddressSq, memberSq, request);
+
+        return response.okMessage(SUCCESS);
+    }
+
+    @DeleteMapping("/address/{memberShippingAddressSq}")
+    public ResponseEntity<Body> deleteMemberShippingAddress(
+        Principal principal,
+        @PathVariable Long memberShippingAddressSq) {
+
+        Long memberSq = helper.getMemberSq(principal);
+
+        memberService.deleteMemberShippingAddress(memberShippingAddressSq, memberSq);
+
+        return response.okMessage(SUCCESS);
+    }
+
+    @GetMapping("/address")
+    public ResponseEntity<Body> getMemberShippingAddresses(Principal principal) {
+
+        Long memberSq = helper.getMemberSq(principal);
+
+        List<MemberShippingAddress> qr = memberService.getMemberShippingAddresses(memberSq);
+
+        List<MemberAddressesView> result = qr.stream().map(MemberAddressesView::fromEntity)
+            .toList();
+
+        return response.ok(result);
     }
 
 

@@ -1,6 +1,7 @@
 package com.example.mammabackend.domain.member.dto;
 
 import com.example.mammabackend.domain.member.domain.Member;
+import com.example.mammabackend.domain.member.domain.MemberShippingAddress;
 import com.example.mammabackend.domain.member.enums.MemberState;
 import com.example.mammabackend.global.common.AddValid;
 import com.example.mammabackend.global.common.Regexp;
@@ -239,5 +240,92 @@ public class MemberDto {
         @Pattern(regexp = Regexp.REGEXP_PHONE, message = ResponseCodes.VALID_INVALID)
         private String phone;
 
+    }
+
+    @ToString
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class RegisterMemberAddressParam {
+
+        @NotBlank(message = ResponseCodes.VALID_REQUIRE)
+        private String name;
+        @NotBlank(message = ResponseCodes.VALID_REQUIRE)
+        @Pattern(regexp = Regexp.REGEXP_PHONE, message = ResponseCodes.VALID_INVALID)
+        private String phone;
+        @NotBlank(message = ResponseCodes.VALID_REQUIRE)
+        @Pattern(regexp = Regexp.REGEXP_ZIPCODE, message = ResponseCodes.VALID_INVALID)
+        private String zipcode;
+        @NotBlank(message = ResponseCodes.VALID_REQUIRE)
+        private String address;
+        private String addressDetail;
+
+        public MemberShippingAddress toEntity(Member member) {
+
+            return MemberShippingAddress.builder()
+                .member(member)
+                .name(this.name)
+                .phone(this.phone)
+                .zipcode(this.zipcode)
+                .address(this.address)
+                .addressDetail(this.addressDetail)
+                .build();
+        }
+    }
+
+    @ToString
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class UpdateMemberAddressParam {
+
+        @NotBlank(message = ResponseCodes.VALID_REQUIRE)
+        private String name;
+        @NotBlank(message = ResponseCodes.VALID_REQUIRE)
+        @Pattern(regexp = Regexp.REGEXP_PHONE, message = ResponseCodes.VALID_INVALID)
+        private String phone;
+        @NotBlank(message = ResponseCodes.VALID_REQUIRE)
+        @Pattern(regexp = Regexp.REGEXP_ZIPCODE, message = ResponseCodes.VALID_INVALID)
+        private String zipcode;
+        @NotBlank(message = ResponseCodes.VALID_REQUIRE)
+        private String address;
+        private String addressDetail;
+
+        public MemberShippingAddress toEntity(MemberShippingAddress memberShippingAddress) {
+            return memberShippingAddress.toBuilder()
+                .name(this.name)
+                .phone(this.phone)
+                .zipcode(this.zipcode)
+                .address(this.address)
+                .addressDetail(this.addressDetail)
+                .build();
+        }
+
+    }
+
+    @ToString
+    @Getter
+    @AllArgsConstructor
+    @Builder
+    public static class MemberAddressesView {
+
+        private Long memberShippingAddressSq;
+        private String name;
+        private String phone;
+        private String zipcode;
+        private String address;
+        private String addressDetail;
+
+        public static MemberAddressesView fromEntity(MemberShippingAddress memberShippingAddress) {
+            return MemberAddressesView.builder()
+                .memberShippingAddressSq(memberShippingAddress.getMemberShippingAddressSq())
+                .name(memberShippingAddress.getName())
+                .phone(memberShippingAddress.getPhone())
+                .zipcode(memberShippingAddress.getZipcode())
+                .address(memberShippingAddress.getAddress())
+                .addressDetail(memberShippingAddress.getAddressDetail())
+                .build();
+
+        }
     }
 }
