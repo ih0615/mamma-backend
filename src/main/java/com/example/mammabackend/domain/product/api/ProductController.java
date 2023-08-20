@@ -29,7 +29,6 @@ public class ProductController {
 
     private final ProductService productService;
     private final Response response;
-    private final Helper helper = Helper.getInstance();
 
     @GetMapping
     public ResponseEntity<Body> getProducts(ProductsParam request,
