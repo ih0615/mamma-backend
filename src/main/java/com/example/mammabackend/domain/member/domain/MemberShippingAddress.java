@@ -1,4 +1,4 @@
-package com.example.mammabackend.domain.user.domain;
+package com.example.mammabackend.domain.member.domain;
 
 import com.example.mammabackend.global.common.audit.CreatedAndUpdatedAt;
 import jakarta.persistence.Column;

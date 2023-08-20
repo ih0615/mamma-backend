@@ -1,7 +1,7 @@
-package com.example.mammabackend.domain.user.application.interfaces;
+package com.example.mammabackend.domain.member.application.interfaces;
 
-import com.example.mammabackend.domain.user.dto.AuthDto.LoginParam;
-import com.example.mammabackend.domain.user.dto.AuthDto.LoginView;
+import com.example.mammabackend.domain.member.dto.AuthDto.LoginParam;
+import com.example.mammabackend.domain.member.dto.AuthDto.LoginView;
 import org.springframework.stereotype.Service;
 
 @Service

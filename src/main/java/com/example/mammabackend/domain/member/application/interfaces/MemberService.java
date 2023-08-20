@@ -1,10 +1,10 @@
-package com.example.mammabackend.domain.user.application.interfaces;
+package com.example.mammabackend.domain.member.application.interfaces;
 
-import com.example.mammabackend.domain.user.domain.Member;
-import com.example.mammabackend.domain.user.dto.MemberDto.FindMemberEmailParam;
-import com.example.mammabackend.domain.user.dto.MemberDto.FindMemberPasswordParam;
-import com.example.mammabackend.domain.user.dto.MemberDto.RegisterMemberParam;
-import com.example.mammabackend.domain.user.dto.MemberDto.UpdateMemberParam;
+import com.example.mammabackend.domain.member.domain.Member;
+import com.example.mammabackend.domain.member.dto.MemberDto.FindMemberEmailParam;
+import com.example.mammabackend.domain.member.dto.MemberDto.FindMemberPasswordParam;
+import com.example.mammabackend.domain.member.dto.MemberDto.RegisterMemberParam;
+import com.example.mammabackend.domain.member.dto.MemberDto.UpdateMemberParam;
 import org.springframework.stereotype.Service;
 
 @Service

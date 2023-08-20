@@ -1,20 +1,20 @@
-package com.example.mammabackend.domain.user.api;
+package com.example.mammabackend.domain.member.api;
 
 import static com.example.mammabackend.global.exception.ResponseCodes.SUCCESS;
 
-import com.example.mammabackend.domain.user.application.interfaces.AuthService;
-import com.example.mammabackend.domain.user.application.interfaces.MemberService;
-import com.example.mammabackend.domain.user.domain.Member;
-import com.example.mammabackend.domain.user.dto.AuthDto.LoginParam;
-import com.example.mammabackend.domain.user.dto.AuthDto.LoginView;
-import com.example.mammabackend.domain.user.dto.AuthDto.ReIssueParam;
-import com.example.mammabackend.domain.user.dto.MemberDto;
-import com.example.mammabackend.domain.user.dto.MemberDto.FindMemberEmailParam;
-import com.example.mammabackend.domain.user.dto.MemberDto.FindMemberEmailView;
-import com.example.mammabackend.domain.user.dto.MemberDto.IsDuplicatedEmailView;
-import com.example.mammabackend.domain.user.dto.MemberDto.MemberInfoView;
-import com.example.mammabackend.domain.user.dto.MemberDto.RegisterMemberParam;
-import com.example.mammabackend.domain.user.dto.MemberDto.VerifyConfirmEmailView;
+import com.example.mammabackend.domain.member.application.interfaces.AuthService;
+import com.example.mammabackend.domain.member.application.interfaces.MemberService;
+import com.example.mammabackend.domain.member.domain.Member;
+import com.example.mammabackend.domain.member.dto.AuthDto.LoginParam;
+import com.example.mammabackend.domain.member.dto.AuthDto.LoginView;
+import com.example.mammabackend.domain.member.dto.AuthDto.ReIssueParam;
+import com.example.mammabackend.domain.member.dto.MemberDto;
+import com.example.mammabackend.domain.member.dto.MemberDto.FindMemberEmailParam;
+import com.example.mammabackend.domain.member.dto.MemberDto.FindMemberEmailView;
+import com.example.mammabackend.domain.member.dto.MemberDto.IsDuplicatedEmailView;
+import com.example.mammabackend.domain.member.dto.MemberDto.MemberInfoView;
+import com.example.mammabackend.domain.member.dto.MemberDto.RegisterMemberParam;
+import com.example.mammabackend.domain.member.dto.MemberDto.VerifyConfirmEmailView;
 import com.example.mammabackend.global.common.Helper;
 import com.example.mammabackend.global.common.Response;
 import com.example.mammabackend.global.common.Response.Body;

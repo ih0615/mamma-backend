@@ -1,6 +1,6 @@
-package com.example.mammabackend.domain.user.domain;
+package com.example.mammabackend.domain.member.domain;
 
-import com.example.mammabackend.domain.user.enums.MemberState;
+import com.example.mammabackend.domain.member.enums.MemberState;
 import com.example.mammabackend.global.common.audit.CreatedAndUpdatedAt;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

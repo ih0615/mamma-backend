@@ -1,13 +1,13 @@
-package com.example.mammabackend.domain.user.application;
+package com.example.mammabackend.domain.member.application;
 
-import com.example.mammabackend.domain.user.application.interfaces.MemberService;
-import com.example.mammabackend.domain.user.dao.MemberRepository;
-import com.example.mammabackend.domain.user.domain.Member;
-import com.example.mammabackend.domain.user.dto.MemberDto.FindMemberEmailParam;
-import com.example.mammabackend.domain.user.dto.MemberDto.FindMemberPasswordParam;
-import com.example.mammabackend.domain.user.dto.MemberDto.RegisterMemberParam;
-import com.example.mammabackend.domain.user.dto.MemberDto.UpdateMemberParam;
-import com.example.mammabackend.domain.user.enums.MemberState;
+import com.example.mammabackend.domain.member.application.interfaces.MemberService;
+import com.example.mammabackend.domain.member.dao.MemberRepository;
+import com.example.mammabackend.domain.member.domain.Member;
+import com.example.mammabackend.domain.member.dto.MemberDto.FindMemberEmailParam;
+import com.example.mammabackend.domain.member.dto.MemberDto.FindMemberPasswordParam;
+import com.example.mammabackend.domain.member.dto.MemberDto.RegisterMemberParam;
+import com.example.mammabackend.domain.member.dto.MemberDto.UpdateMemberParam;
+import com.example.mammabackend.domain.member.enums.MemberState;
 import com.example.mammabackend.global.common.Helper;
 import com.example.mammabackend.global.common.email.dto.EmailDto.EmailMessage;
 import com.example.mammabackend.global.common.email.service.EmailService;

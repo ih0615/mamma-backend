@@ -1,6 +1,5 @@
-package com.example.mammabackend.domain.user.domain;
+package com.example.mammabackend.domain.member.domain;
 
-import com.example.mammabackend.domain.terms.domain.Terms;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -9,8 +8,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -20,20 +21,25 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity(name = "member_terms_agreement_tb")
-public class MemberTermsAgreement {
+@Entity(name = "member_suspend_tb")
+public class MemberSuspend {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_terms_agreement_sq")
-    private Long memberTermsAgreementSq;
+    @Column(name = "member_suspend_sq")
+    private Long memberSuspendSq;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_fk", referencedColumnName = "member_sq", nullable = false)
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "terms_fk", referencedColumnName = "terms_sq", nullable = false)
-    private Terms terms;
+    @Column(name = "start_date_time", nullable = false)
+    private LocalDateTime startDateTime;
+    @Column(name = "end_date_time")
+    private LocalDateTime endDateTime;
+
+    @Default
+    @Column(name = "is_applied", nullable = false)
+    private Boolean isApplied = true;
 
 }

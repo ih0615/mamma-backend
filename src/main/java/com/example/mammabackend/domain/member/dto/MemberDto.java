@@ -1,7 +1,7 @@
-package com.example.mammabackend.domain.user.dto;
+package com.example.mammabackend.domain.member.dto;
 
-import com.example.mammabackend.domain.user.domain.Member;
-import com.example.mammabackend.domain.user.enums.MemberState;
+import com.example.mammabackend.domain.member.domain.Member;
+import com.example.mammabackend.domain.member.enums.MemberState;
 import com.example.mammabackend.global.common.AddValid;
 import com.example.mammabackend.global.common.Regexp;
 import com.example.mammabackend.global.exception.ResponseCodes;

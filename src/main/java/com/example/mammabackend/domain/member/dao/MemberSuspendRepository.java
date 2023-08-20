@@ -1,7 +1,7 @@
-package com.example.mammabackend.domain.user.dao;
+package com.example.mammabackend.domain.member.dao;
 
-import com.example.mammabackend.domain.user.domain.Member;
-import com.example.mammabackend.domain.user.domain.MemberSuspend;
+import com.example.mammabackend.domain.member.domain.Member;
+import com.example.mammabackend.domain.member.domain.MemberSuspend;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,6 +1,6 @@
-package com.example.mammabackend.domain.user.dao;
+package com.example.mammabackend.domain.member.dao;
 
-import com.example.mammabackend.domain.user.domain.MemberTermsAgreement;
+import com.example.mammabackend.domain.member.domain.MemberTermsAgreement;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MemberTermsAgreementRepository extends JpaRepository<MemberTermsAgreement, Long> {

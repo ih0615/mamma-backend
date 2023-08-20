@@ -1,8 +1,8 @@
 package com.example.mammabackend.domain.order.domain;
 
 import com.example.mammabackend.domain.order.enums.OrderState;
-import com.example.mammabackend.domain.user.domain.Member;
-import com.example.mammabackend.domain.user.domain.MemberShippingAddress;
+import com.example.mammabackend.domain.member.domain.Member;
+import com.example.mammabackend.domain.member.domain.MemberShippingAddress;
 import com.example.mammabackend.global.common.audit.CreatedAndUpdatedAt;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

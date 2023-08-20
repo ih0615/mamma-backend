@@ -1,7 +1,7 @@
-package com.example.mammabackend.domain.user.dto;
+package com.example.mammabackend.domain.member.dto;
 
-import com.example.mammabackend.domain.user.domain.MemberSuspend;
-import com.example.mammabackend.domain.user.enums.MemberState;
+import com.example.mammabackend.domain.member.domain.MemberSuspend;
+import com.example.mammabackend.domain.member.enums.MemberState;
 import com.example.mammabackend.global.common.jwt.dto.JwtDto.Token;
 import com.example.mammabackend.global.exception.ResponseCodes;
 import jakarta.validation.constraints.NotBlank;

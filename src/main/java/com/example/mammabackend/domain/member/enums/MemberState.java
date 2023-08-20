@@ -1,4 +1,4 @@
-package com.example.mammabackend.domain.user.enums;
+package com.example.mammabackend.domain.member.enums;
 
 import com.example.mammabackend.global.common.enums.LegacyCode;
 import com.example.mammabackend.global.common.enums.LegacyCodeConverter;
