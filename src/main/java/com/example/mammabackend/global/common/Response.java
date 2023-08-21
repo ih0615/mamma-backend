@@ -1,5 +1,6 @@
 package com.example.mammabackend.global.common;
 
+import com.example.mammabackend.global.exception.ResponseCodes;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +41,7 @@ public class Response {
     }
 
     public ResponseEntity<Body> ok(Object result) {
-        return of(HttpStatus.OK, result, null, null);
+        return of(HttpStatus.OK, result, ResponseCodes.SUCCESS_MESSAGE, null);
     }
 
     public ResponseEntity<Body> okMessage(String message) {
@@ -88,15 +89,15 @@ public class Response {
     }
 
     public ResponseEntity<Body> fail(String globalError) {
-        return fail(null, null, globalError, new LinkedHashMap<>());
+        return fail(null, ResponseCodes.FAIL_MESSAGE, globalError, new LinkedHashMap<>());
     }
 
     public ResponseEntity<Body> fail(BindingResult error) {
-        return fail(null, null, null, error);
+        return fail(null, ResponseCodes.FAIL_MESSAGE, null, error);
     }
 
     public ResponseEntity<Body> fail(Map<String, String> error) {
-        return fail(null, null, null, error);
+        return fail(null, ResponseCodes.FAIL_MESSAGE, null, error);
     }
 
 
