@@ -9,6 +9,7 @@ import com.example.mammabackend.domain.product.domain.ProductStock;
 import com.example.mammabackend.domain.product.dto.ProductDto.ProductQuantity;
 import com.example.mammabackend.domain.product.dto.ProductDto.ProductsParam;
 import com.example.mammabackend.global.common.Helper;
+import com.example.mammabackend.global.exception.ProcessException;
 import com.example.mammabackend.global.exception.ResponseCodes;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.OrderSpecifier;
@@ -54,7 +55,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product getProduct(Long productSq) {
         return productRepository.findByProductSqAndIsUsedIsTrue(productSq)
-            .orElseThrow(() -> new IllegalStateException(ResponseCodes.PROCESS_NOT_EXIST));
+            .orElseThrow(() -> new ProcessException(ResponseCodes.PROCESS_NOT_EXIST));
     }
 
     @Override
@@ -116,7 +117,7 @@ public class ProductServiceImpl implements ProductService {
 
         Long productStock = getProductStock(productSq);
         if (productStock <= quantity) {
-            throw new IllegalStateException(ResponseCodes.PROCESS_INVALID);
+            throw new ProcessException(ResponseCodes.PROCESS_INVALID);
         }
         redisTemplate.opsForValue().increment(redisKey, quantity);
     }

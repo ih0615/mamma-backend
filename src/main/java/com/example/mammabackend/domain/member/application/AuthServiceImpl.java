@@ -14,7 +14,9 @@ import com.example.mammabackend.global.common.jwt.dao.RefreshTokenRepository;
 import com.example.mammabackend.global.common.jwt.domain.RefreshToken;
 import com.example.mammabackend.global.common.jwt.dto.JwtDto.Token;
 import com.example.mammabackend.global.common.jwt.enums.TokenType;
+import com.example.mammabackend.global.exception.ProcessException;
 import com.example.mammabackend.global.exception.ResponseCodes;
+import com.example.mammabackend.global.exception.ValidException;
 import java.util.Collections;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -47,17 +49,17 @@ public class AuthServiceImpl implements AuthService {
 
         Member member = memberRepository.findByEmailAndStateNot(request.getEmail(),
                 MemberState.WITHDRAW)
-            .orElseThrow(() -> new IllegalStateException(ResponseCodes.PROCESS_NOT_EXIST));
+            .orElseThrow(() -> new ProcessException(ResponseCodes.PROCESS_NOT_EXIST));
 
         if (member.getState().equals(MemberState.SUSPEND)) {
             MemberSuspend memberSuspend = memberSuspendRepository.findByMemberAndIsAppliedIsTrue(
                     member)
-                .orElseThrow(() -> new IllegalStateException(ResponseCodes.PROCESS_NOT_EXIST));
+                .orElseThrow(() -> new ProcessException(ResponseCodes.PROCESS_NOT_EXIST));
             return LoginView.suspend(memberSuspend);
         }
 
         if (!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
-            throw new IllegalArgumentException(ResponseCodes.VALID_INVALID);
+            throw new ValidException("password", ResponseCodes.PROCESS_INVALID);
         }
 
         String subject = String.valueOf(member.getMemberSq());
@@ -71,17 +73,17 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public LoginView reissue(String refreshToken) {
         RefreshToken existRefreshToken = refreshTokenRepository.findByRefreshToken(refreshToken)
-            .orElseThrow(() -> new IllegalStateException(ResponseCodes.PROCESS_NOT_EXIST));
+            .orElseThrow(() -> new ProcessException(ResponseCodes.PROCESS_NOT_EXIST));
 
         Long memberSq = existRefreshToken.getId();
 
         Member member = memberRepository.findByMemberSqAndStateNot(memberSq, MemberState.WITHDRAW)
-            .orElseThrow(() -> new IllegalStateException(ResponseCodes.PROCESS_NOT_EXIST));
+            .orElseThrow(() -> new ProcessException(ResponseCodes.PROCESS_NOT_EXIST));
 
         if (member.getState().equals(MemberState.SUSPEND)) {
             MemberSuspend memberSuspend = memberSuspendRepository.findByMemberAndIsAppliedIsTrue(
                     member)
-                .orElseThrow(() -> new IllegalStateException(ResponseCodes.PROCESS_NOT_EXIST));
+                .orElseThrow(() -> new ProcessException(ResponseCodes.PROCESS_NOT_EXIST));
             return LoginView.suspend(memberSuspend);
         }
 

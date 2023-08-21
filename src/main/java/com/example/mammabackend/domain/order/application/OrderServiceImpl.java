@@ -18,7 +18,9 @@ import com.example.mammabackend.domain.product.application.ProductService;
 import com.example.mammabackend.domain.product.domain.Product;
 import com.example.mammabackend.domain.product.dto.ProductDto.ProductQuantity;
 import com.example.mammabackend.global.common.Helper;
+import com.example.mammabackend.global.exception.ProcessException;
 import com.example.mammabackend.global.exception.ResponseCodes;
+import com.example.mammabackend.global.exception.ValidException;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
@@ -66,7 +68,7 @@ public class OrderServiceImpl implements OrderService {
                 < productQuantity.getQuantity());
 
         if (isLackStock) {
-            throw new IllegalStateException(ResponseCodes.PROCESS_INVALID);
+            throw new ValidException("quantities", ResponseCodes.PROCESS_INVALID);
         }
 
         List<ProductQuantity> decrementProductQuantities = productQuantities.stream()
@@ -94,7 +96,7 @@ public class OrderServiceImpl implements OrderService {
 
         Order order = orderRepository.findByOrderSqAndMemberAndState(orderSq, member,
                 OrderState.DELIVERY_COMPLETE)
-            .orElseThrow(() -> new IllegalStateException(ResponseCodes.PROCESS_NOT_EXIST));
+            .orElseThrow(() -> new ProcessException(ResponseCodes.PROCESS_NOT_EXIST));
 
         order.confirm();
 
@@ -108,7 +110,7 @@ public class OrderServiceImpl implements OrderService {
 
         Order order = orderRepository.findByOrderSqAndMemberAndStateNotIn(orderSq, member,
                 Arrays.asList(OrderState.ORDER_CANCEL_WAIT, OrderState.ORDER_CANCEL_COMPLETE))
-            .orElseThrow(() -> new IllegalStateException(ResponseCodes.PROCESS_NOT_EXIST));
+            .orElseThrow(() -> new ProcessException(ResponseCodes.PROCESS_NOT_EXIST));
 
         order.cancel();
 
@@ -174,7 +176,7 @@ public class OrderServiceImpl implements OrderService {
         Member member = memberService.findNormalMemberByMemberSq(memberSq);
 
         return orderRepository.findByOrderSqAndMember(orderSq, member)
-            .orElseThrow(() -> new IllegalStateException(ResponseCodes.PROCESS_NOT_EXIST));
+            .orElseThrow(() -> new ProcessException(ResponseCodes.PROCESS_NOT_EXIST));
     }
 
     @Override
@@ -195,7 +197,7 @@ public class OrderServiceImpl implements OrderService {
             productSqs);
 
         if (productSqs.size() != products.size()) {
-            throw new IllegalStateException(ResponseCodes.PROCESS_NOT_EXIST);
+            throw new ProcessException(ResponseCodes.PROCESS_NOT_EXIST);
         }
 
         Map<Long, Product> productMap = products.stream()

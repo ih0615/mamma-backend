@@ -15,7 +15,9 @@ import com.example.mammabackend.domain.member.enums.MemberState;
 import com.example.mammabackend.global.common.Helper;
 import com.example.mammabackend.global.common.email.dto.EmailDto.EmailMessage;
 import com.example.mammabackend.global.common.email.service.EmailService;
+import com.example.mammabackend.global.exception.ProcessException;
 import com.example.mammabackend.global.exception.ResponseCodes;
+import com.example.mammabackend.global.exception.ValidException;
 import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -85,7 +87,7 @@ public class MemberServiceImpl implements MemberService {
 
         if (isDuplicatedEmail(request.getEmail())
             || !verifyConfirmEmail(request.getEmail(), request.getEmailValidationCode())) {
-            throw new IllegalStateException(ResponseCodes.VALID_INVALID);
+            throw new ValidException("email", ResponseCodes.VALID_INVALID);
         }
 
         Member member = request.toEntity(passwordEncoder);
@@ -100,7 +102,7 @@ public class MemberServiceImpl implements MemberService {
     public void updateMember(Long memberSq, UpdateMemberParam request) {
 
         Member member = memberRepository.findByMemberSqAndState(memberSq, MemberState.NORMAL)
-            .orElseThrow(() -> new IllegalStateException(ResponseCodes.PROCESS_NOT_EXIST));
+            .orElseThrow(() -> new ProcessException(ResponseCodes.PROCESS_NOT_EXIST));
 
         member = request.toEntity(member);
 
@@ -113,7 +115,7 @@ public class MemberServiceImpl implements MemberService {
     public void withdrawMember(Long memberSq) {
 
         Member member = memberRepository.findByMemberSqAndState(memberSq, MemberState.NORMAL)
-            .orElseThrow(() -> new IllegalStateException(ResponseCodes.PROCESS_NOT_EXIST));
+            .orElseThrow(() -> new ProcessException(ResponseCodes.PROCESS_NOT_EXIST));
 
         member.withdraw();
 
@@ -124,14 +126,14 @@ public class MemberServiceImpl implements MemberService {
     public Member getMemberInfo(Long memberSq) {
 
         return memberRepository.findByMemberSqAndState(memberSq, MemberState.NORMAL)
-            .orElseThrow(() -> new IllegalStateException(ResponseCodes.PROCESS_NOT_EXIST));
+            .orElseThrow(() -> new ProcessException(ResponseCodes.PROCESS_NOT_EXIST));
     }
 
     @Override
     public String findMemberEmail(FindMemberEmailParam request) {
         Member member = memberRepository.findByNameAndPhoneAndStateNot(request.getName(),
                 request.getPhone(), MemberState.WITHDRAW)
-            .orElseThrow(() -> new IllegalStateException(ResponseCodes.PROCESS_NOT_EXIST));
+            .orElseThrow(() -> new ProcessException(ResponseCodes.PROCESS_NOT_EXIST));
 
         return member.getEmail();
     }
@@ -141,7 +143,7 @@ public class MemberServiceImpl implements MemberService {
     public void findMemberPassword(FindMemberPasswordParam request) {
         Member member = memberRepository.findByEmailAndNameAndPhoneAndStateNot(request.getEmail(),
                 request.getName(), request.getPhone(), MemberState.WITHDRAW)
-            .orElseThrow(() -> new IllegalStateException(ResponseCodes.PROCESS_NOT_EXIST));
+            .orElseThrow(() -> new ProcessException(ResponseCodes.PROCESS_NOT_EXIST));
 
         String tempPassword = helper.generateRandomAlphanumericString(10);
 
@@ -160,7 +162,7 @@ public class MemberServiceImpl implements MemberService {
     public void registerMemberShippingAddress(Long memberSq, RegisterMemberAddressParam request) {
 
         Member member = memberRepository.findByMemberSqAndState(memberSq, MemberState.NORMAL)
-            .orElseThrow(() -> new IllegalStateException(ResponseCodes.PROCESS_NOT_EXIST));
+            .orElseThrow(() -> new ProcessException(ResponseCodes.PROCESS_NOT_EXIST));
 
         MemberShippingAddress memberShippingAddress = request.toEntity(member);
 
@@ -173,11 +175,11 @@ public class MemberServiceImpl implements MemberService {
         UpdateMemberAddressParam request) {
 
         Member member = memberRepository.findByMemberSqAndState(memberSq, MemberState.NORMAL)
-            .orElseThrow(() -> new IllegalStateException(ResponseCodes.PROCESS_NOT_EXIST));
+            .orElseThrow(() -> new ProcessException(ResponseCodes.PROCESS_NOT_EXIST));
 
         MemberShippingAddress memberShippingAddress = memberShippingAddressRepository.findByMemberShippingAddressSqAndMember(
                 memberShippingAddressSq, member)
-            .orElseThrow(() -> new IllegalStateException(ResponseCodes.PROCESS_NOT_EXIST));
+            .orElseThrow(() -> new ProcessException(ResponseCodes.PROCESS_NOT_EXIST));
 
         memberShippingAddress = request.toEntity(memberShippingAddress);
 
@@ -189,11 +191,11 @@ public class MemberServiceImpl implements MemberService {
     public void deleteMemberShippingAddress(Long memberShippingAddressSq, Long memberSq) {
 
         Member member = memberRepository.findByMemberSqAndState(memberSq, MemberState.NORMAL)
-            .orElseThrow(() -> new IllegalStateException(ResponseCodes.PROCESS_NOT_EXIST));
+            .orElseThrow(() -> new ProcessException(ResponseCodes.PROCESS_NOT_EXIST));
 
         MemberShippingAddress memberShippingAddress = memberShippingAddressRepository.findByMemberShippingAddressSqAndMember(
                 memberShippingAddressSq, member)
-            .orElseThrow(() -> new IllegalStateException(ResponseCodes.PROCESS_NOT_EXIST));
+            .orElseThrow(() -> new ProcessException(ResponseCodes.PROCESS_NOT_EXIST));
 
         memberShippingAddressRepository.delete(memberShippingAddress);
     }
@@ -202,7 +204,7 @@ public class MemberServiceImpl implements MemberService {
     public List<MemberShippingAddress> getMemberShippingAddresses(Long memberSq) {
 
         Member member = memberRepository.findByMemberSqAndState(memberSq, MemberState.NORMAL)
-            .orElseThrow(() -> new IllegalStateException(ResponseCodes.PROCESS_NOT_EXIST));
+            .orElseThrow(() -> new ProcessException(ResponseCodes.PROCESS_NOT_EXIST));
 
         return memberShippingAddressRepository.findAllByMember(member);
     }
@@ -210,6 +212,6 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Member findNormalMemberByMemberSq(Long memberSq) {
         return memberRepository.findByMemberSqAndState(memberSq, MemberState.NORMAL)
-            .orElseThrow(() -> new IllegalStateException(ResponseCodes.PROCESS_NOT_EXIST));
+            .orElseThrow(() -> new ProcessException(ResponseCodes.PROCESS_NOT_EXIST));
     }
 }

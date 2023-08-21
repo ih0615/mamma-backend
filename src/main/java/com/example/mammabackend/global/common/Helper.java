@@ -2,6 +2,7 @@ package com.example.mammabackend.global.common;
 
 import static com.example.mammabackend.domain.product.domain.QProduct.product;
 
+import com.example.mammabackend.global.exception.ProcessException;
 import com.example.mammabackend.global.exception.ResponseCodes;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
@@ -27,11 +28,11 @@ public class Helper {
     public Long getMemberSq(Principal principal) {
 
         if (principal == null) {
-            throw new IllegalStateException(ResponseCodes.PROCESS_UNAUTHORIZED);
+            throw new ProcessException(ResponseCodes.PROCESS_UNAUTHORIZED);
         }
         String name = principal.getName();
         if (!StringUtils.hasText(name)) {
-            throw new IllegalStateException(ResponseCodes.PROCESS_UNAUTHORIZED);
+            throw new ProcessException(ResponseCodes.PROCESS_UNAUTHORIZED);
         }
         return Long.valueOf(name);
     }
