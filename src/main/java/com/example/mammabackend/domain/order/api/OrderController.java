@@ -58,7 +58,7 @@ public class OrderController {
 
         orderService.registerOrder(memberSq, request);
 
-        return response.okMessage(ResponseCodes.SUCCESS);
+        return response.okMessage(ResponseCodes.SUCCESS_MESSAGE);
     }
 
     @PutMapping("/{orderSq}")
@@ -68,7 +68,7 @@ public class OrderController {
 
         orderService.confirmOrder(orderSq, memberSq);
 
-        return response.okMessage(ResponseCodes.SUCCESS);
+        return response.okMessage(ResponseCodes.SUCCESS_MESSAGE);
     }
 
     @DeleteMapping("/{orderSq}")
@@ -78,7 +78,7 @@ public class OrderController {
 
         orderService.cancelOrder(orderSq, memberSq);
 
-        return response.okMessage(ResponseCodes.SUCCESS);
+        return response.okMessage(ResponseCodes.SUCCESS_MESSAGE);
     }
 
     @GetMapping

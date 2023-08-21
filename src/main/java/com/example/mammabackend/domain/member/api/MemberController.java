@@ -1,6 +1,6 @@
 package com.example.mammabackend.domain.member.api;
 
-import static com.example.mammabackend.global.exception.ResponseCodes.SUCCESS;
+import static com.example.mammabackend.global.exception.ResponseCodes.SUCCESS_MESSAGE;
 
 import com.example.mammabackend.domain.member.application.interfaces.AuthService;
 import com.example.mammabackend.domain.member.application.interfaces.MemberService;
@@ -73,7 +73,7 @@ public class MemberController {
 
         memberService.verifyRequestEmail(request.getEmail());
 
-        return response.okMessage(SUCCESS);
+        return response.okMessage(SUCCESS_MESSAGE);
     }
 
     @PostMapping("/validation/confirm/email")
@@ -103,7 +103,7 @@ public class MemberController {
 
         memberService.registerMember(request);
 
-        return response.okMessage(SUCCESS);
+        return response.okMessage(SUCCESS_MESSAGE);
     }
 
     @PutMapping
@@ -121,7 +121,7 @@ public class MemberController {
 
         memberService.updateMember(memberSq, request);
 
-        return response.okMessage(SUCCESS);
+        return response.okMessage(SUCCESS_MESSAGE);
     }
 
     @DeleteMapping
@@ -131,7 +131,7 @@ public class MemberController {
 
         memberService.withdrawMember(memberSq);
 
-        return response.okMessage(SUCCESS);
+        return response.okMessage(SUCCESS_MESSAGE);
     }
 
     @GetMapping
@@ -167,7 +167,7 @@ public class MemberController {
 
         memberService.findMemberPassword(request);
 
-        return response.ok(SUCCESS);
+        return response.ok(SUCCESS_MESSAGE);
     }
 
     @PostMapping("/address")
@@ -181,7 +181,7 @@ public class MemberController {
 
         memberService.registerMemberShippingAddress(memberSq, request);
 
-        return response.okMessage(SUCCESS);
+        return response.okMessage(SUCCESS_MESSAGE);
     }
 
     @PutMapping("/address/{memberShippingAddressSq}")
@@ -199,7 +199,7 @@ public class MemberController {
 
         memberService.updateMemberShippingAddress(memberShippingAddressSq, memberSq, request);
 
-        return response.okMessage(SUCCESS);
+        return response.okMessage(SUCCESS_MESSAGE);
     }
 
     @DeleteMapping("/address/{memberShippingAddressSq}")
@@ -211,7 +211,7 @@ public class MemberController {
 
         memberService.deleteMemberShippingAddress(memberShippingAddressSq, memberSq);
 
-        return response.okMessage(SUCCESS);
+        return response.okMessage(SUCCESS_MESSAGE);
     }
 
     @GetMapping("/address")
@@ -260,6 +260,6 @@ public class MemberController {
 
         authService.logout(memberSq);
 
-        return response.okMessage(SUCCESS);
+        return response.okMessage(SUCCESS_MESSAGE);
     }
 }
